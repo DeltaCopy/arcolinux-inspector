@@ -102,27 +102,7 @@ function show_shell {
   echo "--------------------------------------------------------------------------"
 }
 
-function check_att {
-  echo ":: [Arch Linux Tweak Tool]"
-  test -f "/usr/bin/att" && test -f "/usr/share/archlinux-tweak-tool/archlinux-tweak-tool.py" && echo " Arch Linux Tweak Tool is installed" || echo " Arch Linux Tweak Tool is not installed"
-
-  att_version=$(pacman -Q archlinux-tweak-tool-git | awk {'print $2'})
-  test ! -z "$att_version" && echo " Version = $att_version"
-
-  echo "--------------------------------------------------------------------------"
-}
-
-function check_adt {
-  echo ":: [ArcoLinux Desktop Trasher]"
-  test -f "/usr/local/bin/arcolinux-desktop-trasher" && test -f "/usr/share/arcolinux-desktop-trasher/arcolinux-desktop-trasher.py" && echo " ArcoLinux Desktop Trasher is installed" || echo " ArcoLinux Desktop Trasher is not installed"
-
-  adt_version=$(pacman -Q arcolinux-desktop-trasher-git | awk {'print $2'})
-  test ! -z "$adt_version" && echo " Version = $adt_version"
-
-  echo "--------------------------------------------------------------------------"
-}
-
-function check_probe {
+function show_probe {
   echo ":: [Probe]"
   test -f "/usr/bin/hw-probe" && echo " Probe is installed" || echo " Probe is not installed"
 
@@ -132,10 +112,22 @@ function check_probe {
   echo "--------------------------------------------------------------------------"
 }
 
-function check_system_config {
-  echo ":: [System Config]"
+function show_all_arco {
+  echo ":: [Installed ArcoLinux Packages]"
+  tmp="/tmp/.arco_pkglst"
+
+  pacman -Q | grep arco > "$tmp"
+  i=0
+  while read pkg; do
+    i=$((i + 1))
+    echo " $i. $pkg"
+  done<"$tmp"
+
+  test -f "$tmp" && rm "$tmp"
 
 }
+
+
 
 function footer {
   echo "+========================================================================+"
@@ -159,9 +151,8 @@ Options
   --display             display information
   --xauth               XAuthority information
   --shell               shell information
-  --att                 Arch Linux Tweak Tool information
-  --adt                 ArcoLinux Desktop Trasher information
   --probe               probe information
+  --arco                ArcoLinux package information
   --help                this help message and exit
 EOF
 
@@ -177,9 +168,8 @@ function run_all {
   show_display
   show_xauth_info
   show_shell
-  check_att
-  check_adt
-  check_probe
+  show_probe
+  show_all_arco
   footer
 }
 
@@ -206,14 +196,11 @@ case "$1" in
   "--shell")
       show_shell && footer && exit
   ;;
-  "--att")
-      check_att && footer && exit
-  ;;
-  "--adt")
-      check_adt && footer && exit
-  ;;
   "--probe")
-      check_probe && footer && exit
+      show_probe && footer && exit
+  ;;
+  "--arco")
+      show_all_arco && footer && exit
   ;;
   "--help")
       show_usage && footer && exit 0
