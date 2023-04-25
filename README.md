@@ -3,8 +3,8 @@
 
         ./arco-inspector.sh --help
     +========================================================================+
-    ARCOLINUX SYSTEM INSPECTOR
-    Version: 0.1
+                            ARCOLINUX SYSTEM INSPECTOR
+                                  Version: 0.1
     +========================================================================+
     Usage:
       ./arco-inspector.sh --all              shows all the information
