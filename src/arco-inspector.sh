@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
+set -eo pipefail
+
 version="0.1"
 discord_link="https://discord.gg/R2amEEz"
 forums_link="https://arcolinuxforum.com"
@@ -12,15 +14,15 @@ EOF
 function show_iso {
   echo ":: [ISO]"
 
-  test -s "/etc/dev-tel" && iso_release=$(cat /etc/dev-rel | awk -F '=' '/ISO_RELEASE/' | awk -F= '{print $2}')
-  test -s "/etc/dev-tel" && iso_codename=$(cat /etc/dev-rel | awk -F '=' '/ISO_CODENAME/' | awk -F= '{print $2}')
-  test -s "/etc/dev-tel" && iso_build=$(cat /etc/dev-rel | awk -F '=' '/ISO_BUILD/' | awk -F= '{print $2}')
+  test -s "/etc/dev-rel" && iso_release=$(cat /etc/dev-rel | awk -F '=' '/ISO_RELEASE/' | awk -F= '{print $2}')
+  test -s "/etc/dev-rel" && iso_codename=$(cat /etc/dev-rel | awk -F '=' '/ISO_CODENAME/' | awk -F= '{print $2}')
+  test -s "/etc/dev-rel" && iso_build=$(cat /etc/dev-rel | awk -F '=' '/ISO_BUILD/' | awk -F= '{print $2}')
 
   test ! -z "$iso_release" && echo " Release = $iso_release" || echo " Release = unknown"
   test ! -z "$iso_codename" && echo " Codename = $iso_codename" || echo " Codename = unknown"
   test ! -z "$iso_build" && echo " Build = $iso_build" || echo " Build = unknown"
 
-  echo "------------------------------------------"
+  echo "--------------------------------------------------------------------------"
 }
 
 function show_lsb_release {
@@ -39,7 +41,7 @@ function show_lsb_release {
 
   fi
 
-  echo "------------------------------------------"
+  echo "--------------------------------------------------------------------------"
 }
 
 function show_desktop_session {
@@ -53,7 +55,7 @@ function show_desktop_session {
 
   test ! -z "$desktop_session" && echo " Desktop Evironment = $desktop_session"
 
-  echo "------------------------------------------"
+  echo "--------------------------------------------------------------------------"
 
 }
 
@@ -64,7 +66,7 @@ function show_display_server {
 
   test ! -z "$display_session" && echo " $display_session" || echo " Display Server is unknown"
 
-  echo "------------------------------------------"
+  echo "--------------------------------------------------------------------------"
 }
 
 function show_display {
@@ -76,7 +78,7 @@ function show_display {
   test ! -z "$x11_display" && echo " X11 Display = $x11_display"
   test ! -z "$wayland_display" && echo " Wayland Display = $wayland_display"
 
-  echo "------------------------------------------"
+  echo "--------------------------------------------------------------------------"
 }
 
 function show_xauth_info {
@@ -88,7 +90,7 @@ function show_xauth_info {
   test ! -z "$xauth_file" && echo " XAuthority file = $xauth_file"
   test ! -z "$xauth_entries" && echo " Entries = $xauth_entries"
 
-  echo "------------------------------------------"
+  echo "--------------------------------------------------------------------------"
 }
 
 function show_shell {
@@ -97,7 +99,7 @@ function show_shell {
   echo ":: [Default Shell]"
   test ! -z "$shell" && echo " $shell" || echo " Default Shell is unknown"
 
-  echo "------------------------------------------"
+  echo "--------------------------------------------------------------------------"
 }
 
 function check_att {
@@ -107,7 +109,7 @@ function check_att {
   att_version=$(pacman -Q archlinux-tweak-tool-git | awk {'print $2'})
   test ! -z "$att_version" && echo " Version = $att_version"
 
-  echo "------------------------------------------"
+  echo "--------------------------------------------------------------------------"
 }
 
 function check_adt {
@@ -117,7 +119,7 @@ function check_adt {
   adt_version=$(pacman -Q arcolinux-desktop-trasher-git | awk {'print $2'})
   test ! -z "$adt_version" && echo " Version = $adt_version"
 
-  echo "------------------------------------------"
+  echo "--------------------------------------------------------------------------"
 }
 
 function check_probe {
@@ -127,7 +129,7 @@ function check_probe {
   probe_version=$(pacman -Q hw-probe | awk {'print $2'})
   test ! -z "$probe_version" && echo " Version = $probe_version"
 
-  echo "------------------------------------------"
+  echo "--------------------------------------------------------------------------"
 }
 
 function check_system_config {
@@ -150,17 +152,17 @@ function show_usage {
 Usage:
   $0 --all              shows all the information
 Options
-  --iso                 shows iso information
-  --lsb                 shows lsb_release information
-  --desktop             shows desktop environment information
-  --display-server      shows display server information
-  --display             shows display information
-  --xauth               shows XAuthority information
-  --shell               shows shell information
-  --att                 shows Arch Linux Tweak Tool information
-  --adt                 shows ArcoLinux Desktop Trasher information
-  --probe               shows probe information
-  --help                shows this help message and exit
+  --iso                 iso information
+  --lsb                 lsb_release information
+  --desktop             desktop environment information
+  --session             display server information
+  --display             display information
+  --xauth               XAuthority information
+  --shell               shell information
+  --att                 Arch Linux Tweak Tool information
+  --adt                 ArcoLinux Desktop Trasher information
+  --probe               probe information
+  --help                this help message and exit
 EOF
 
 }
@@ -192,7 +194,7 @@ case "$1" in
   "--desktop")
       show_desktop_session && footer && exit
   ;;
-  "--display-server")
+  "--session")
       show_display_server && footer && exit
   ;;
   "--display")
