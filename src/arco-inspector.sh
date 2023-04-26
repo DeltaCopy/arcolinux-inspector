@@ -2,7 +2,7 @@
 set -eo pipefail
 
 version="0.1"
-discord_link="https://discord.gg/R2amEEz"
+discord_link="https://discord.gg/stBhS4taje"
 forums_link="https://arcolinuxforum.com"
 cat <<EOF
 +========================================================================+
