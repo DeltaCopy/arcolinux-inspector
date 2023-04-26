@@ -114,17 +114,20 @@ function show_probe {
 
 function show_all_arco {
   echo ":: [Installed ArcoLinux Packages]"
-  tmp="/tmp/.arco_pkglst"
-
-  pacman -Q | grep arco > "$tmp"
   i=0
-  while read pkg; do
-    i=$((i + 1))
-    echo " $i. $pkg"
-  done<"$tmp"
 
-  test -f "$tmp" && rm "$tmp"
+  pacman_query=$(pacman -Qq | grep "arcolinux\|archlinux")
 
+  for pkg in $pacman_query; do
+    url=$(pacman -Qi $pkg | grep -w URL)
+    version=$(pacman -Qi $pkg | grep -w Version | awk -F'Version         :' {'print $2'})
+    case "$url" in
+      *"arcolinux"*)
+        i=$((i + 1))
+        echo " $i. $pkg ==> $version"
+      ;;
+    esac
+  done
 }
 
 
