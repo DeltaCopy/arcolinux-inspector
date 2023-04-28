@@ -10,7 +10,6 @@ echo -e "                       \e[1mARCOLINUX SYSTEM INSPECTOR\e[0m"
 echo    "                             Version: ${version}"
 echo   "+========================================================================+"
 
-
 function show_iso {
   echo -e "\e[1m:: [ISO]\e[0m"
 
@@ -159,9 +158,38 @@ function show_display_mgr {
   for disp_mgr in ${displays[@]}; do
     proc=$(ps -ef | grep -w $disp_mgr | grep -v color | xargs)
     if [ ! -z "$proc" ]; then
-      test $(pidof -s $disp_mgr) && echo -e " \e[1m $disp_mgr\e[0m : running"
+      test $(pidof -s $disp_mgr) && echo -e "\e[1m $disp_mgr\e[0m : running"
+      break
     fi
   done
+  echo "--------------------------------------------------------------------------"
+}
+
+
+function show_hardware {
+  echo -e "\e[1m:: [Hardware]\e[0m"
+  test $(type inxi &> /dev/null) && echo -e "\e[1m inxi not found\e[0m"
+
+  audio=$(inxi -A | sed 's/Audio://')
+  cpu=$(inxi -C | sed 's/CPU://')
+  network=$(inxi -N | sed 's/Network://')
+  graphics=$(inxi -G | sed 's/Graphics://')
+
+  test ! -z "$cpu" && echo && echo -e " \e[1m CPU: \e[0m  $cpu"
+  test ! -z "$graphics" && echo && echo -e " \e[1m Graphics: \e[0m  $graphics"
+  test ! -z "$audio" && echo && echo -e " \e[1m Audio: \e[0m  $audio"
+  test ! -z "$network" && echo && echo -e " \e[1m Network: \e[0m  $network"
+
+  echo "--------------------------------------------------------------------------"
+}
+
+function show_system {
+  echo -e "\e[1m:: [System]\e[0m"
+  test $(type inxi &> /dev/null) && echo -e "\e[1m inxi not found\e[0m"
+
+  system=$(inxi -S | sed 's/System://')
+
+  test ! -z "$system" && echo -e " Details: $system"
 
   echo "--------------------------------------------------------------------------"
 }
@@ -192,6 +220,7 @@ Options
   --shell               shell information
   --probe               probe information
   --polkit              Polkit information
+  --hardware            hardware information
   --arco                ArcoLinux package information
   --help                this help message and exit
 EOF
@@ -211,6 +240,8 @@ function run_all {
   show_shell
   show_probe
   show_polkit
+  show_hardware
+  show_system
   show_all_arco
   footer
 }
@@ -218,43 +249,49 @@ function run_all {
 # if there is a flag set print only the one selected
 case "$1" in
   "--iso")
-      show_iso && footer && exit
+      show_iso && footer
   ;;
   "--lsb")
-      show_lsb_release && footer && exit
+      show_lsb_release && footer
   ;;
   "--desktop")
-      show_desktop_session && footer && exit
+      show_desktop_session && footer
   ;;
   "--session")
-      show_display_session && footer && exit
+      show_display_session && footer
   ;;
   "--display")
-      show_display && footer && exit
+      show_display && footer
   ;;
   "--displaymgr")
-      show_display_mgr && footer && exit
+      show_display_mgr && footer
   ;;
   "--xauth")
-      show_xauth_info && footer && exit
+      show_xauth_info && footer
   ;;
   "--shell")
-      show_shell && footer && exit
+      show_shell && footer
   ;;
   "--probe")
-      show_probe && footer && exit
+      show_probe && footer
   ;;
   "--arco")
-      show_all_arco && footer && exit
+      show_all_arco && footer
   ;;
   "--polkit")
-      show_polkit && exit
+      show_polkit
+  ;;
+  "--hardware")
+    show_hardware
+  ;;
+  "--system")
+    show_system
   ;;
   "--help")
-      show_usage && footer && exit 0
+      show_usage && footer
   ;;
   "--all")
-      run_all && exit
+      run_all
   ;;
   *)
       show_usage
