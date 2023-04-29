@@ -1,13 +1,13 @@
 # arcolinux-inspector
 ## A shell script to report system information on systems running ArcoLinux
 
-        ./arco-inspector.sh --help
+        ./arcolinux-inspector.sh --help
     +========================================================================+
                             ARCOLINUX SYSTEM INSPECTOR
                                   Version: 0.1
     +========================================================================+
     Usage:
-      ./arco-inspector.sh --all              shows all the information
+      ./arcolinux-inspector.sh --all              shows all the information
       Usage:
         $0 --all              shows all the information
       Options
