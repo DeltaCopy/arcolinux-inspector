@@ -20,7 +20,7 @@
         --shell               Shell information
         --probe               Probe information
         --polkit              Polkit information
-        --hardware            Hardware information
+        --hardware            Hardware (cpu, graphics, network, audio) information
         --arco                ArcoLinux package information
         --system              Kernel, arch, desktop, distro information
         --help                this help message and exit
@@ -30,3 +30,4 @@
     - Discord: https://discord.gg/R2amEEz
     - Forums: https://arcolinuxforum.com
     +========================================================================+
+    

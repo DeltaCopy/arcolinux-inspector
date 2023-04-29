@@ -205,7 +205,7 @@ Options
   --shell               Shell information
   --probe               Probe information
   --polkit              Polkit information
-  --hardware            Hardware information
+  --hardware            Hardware (cpu, graphics, network, audio) information
   --arco                ArcoLinux package information
   --system              Kernel, arch, desktop, distro information
   --help                this help message and exit
