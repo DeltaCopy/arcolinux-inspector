@@ -1,5 +1,5 @@
 # arcolinux-inspector
-## A shell script to report system information on systems running ArcoLinux
+## A shell script to report information on systems running ArcoLinux
 
         ./arcolinux-inspector.sh --help
     +========================================================================+
@@ -30,4 +30,3 @@
     - Discord: https://discord.gg/R2amEEz
     - Forums: https://arcolinuxforum.com
     +========================================================================+
-    
