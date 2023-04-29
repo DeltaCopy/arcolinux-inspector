@@ -8,18 +8,21 @@
     +========================================================================+
     Usage:
       ./arco-inspector.sh --all              shows all the information
-    Options
-        --iso                 iso information
+      Usage:
+        $0 --all              shows all the information
+      Options
+        --iso                 ISO information
         --lsb                 lsb_release information
-        --desktop             desktop environment information
-        --session             display server information
-        --display             display information
-        --displaymgr          display-manager information
+        --session             Display server information
+        --display             Display information
+        --displaymgr          Display-manager information
         --xauth               XAuthority information
-        --shell               shell information
-        --probe               probe information
+        --shell               Shell information
+        --probe               Probe information
         --polkit              Polkit information
+        --hardware            Hardware information
         --arco                ArcoLinux package information
+        --system              Kernel, arch, desktop, distro information
         --help                this help message and exit
     +========================================================================+
     For technical support run "probe" then send the Arco Linux team the link

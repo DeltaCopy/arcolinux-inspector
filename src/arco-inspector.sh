@@ -43,19 +43,6 @@ function show_lsb_release {
   echo "--------------------------------------------------------------------------"
 }
 
-function show_desktop_session {
-  echo -e "\e[1m:: [Desktop Evironment]\e[0m"
-
-  desktop_session=$(env | grep -w DESKTOP_SESSION | awk -F= '{print $2}')
-
-  test -z "$desktop_session" && desktop_session=$(env | grep -w XDG_CURRENT_DESKTOP | awk -F= '{print $2}')
-  test -z "$desktop_session" && desktop_session=$(env | grep -w XDG_SESSION_DESKTOP | awk -F= '{print $2}')
-  test ! -z "$desktop_session" && echo " Desktop Evironment = $desktop_session"
-
-  echo "--------------------------------------------------------------------------"
-
-}
-
 function show_display_session {
   echo -e "\e[1m:: [Display Session]\e[0m"
 
@@ -159,7 +146,6 @@ function show_display_mgr {
     proc=$(ps -ef | grep -w $disp_mgr | grep -v color | xargs)
     if [ ! -z "$proc" ]; then
       test $(pidof -s $disp_mgr) && echo -e "\e[1m $disp_mgr\e[0m : running"
-      break
     fi
   done
   echo "--------------------------------------------------------------------------"
@@ -210,18 +196,18 @@ function show_usage {
 Usage:
   $0 --all              shows all the information
 Options
-  --iso                 iso information
+  --iso                 ISO information
   --lsb                 lsb_release information
-  --desktop             desktop environment information
-  --session             display server information
-  --display             display information
-  --displaymgr          display-manager information
+  --session             Display server information
+  --display             Display information
+  --displaymgr          Display-manager information
   --xauth               XAuthority information
-  --shell               shell information
-  --probe               probe information
+  --shell               Shell information
+  --probe               Probe information
   --polkit              Polkit information
-  --hardware            hardware information
+  --hardware            Hardware information
   --arco                ArcoLinux package information
+  --system              Kernel, arch, desktop, distro information
   --help                this help message and exit
 EOF
 
@@ -232,7 +218,6 @@ EOF
 function run_all {
   show_iso
   show_lsb_release
-  show_desktop_session
   show_display_session
   show_display
   show_display_mgr
@@ -253,9 +238,6 @@ case "$1" in
   ;;
   "--lsb")
       show_lsb_release && footer
-  ;;
-  "--desktop")
-      show_desktop_session && footer
   ;;
   "--session")
       show_display_session && footer
