@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-set -eo pipefail
 
 version="0.1"
 discord_link="https://discord.gg/stBhS4taje"
@@ -58,8 +57,8 @@ function show_display {
   x11_display=$(env | grep -w DISPLAY | awk -F= '{print $2}')
   wayland_display=$(env | grep -w WAYLAND_DISPLAY | awk -F= '{print $2}')
 
-  test ! -z "$x11_display" && echo " X11 Display = $x11_display"
-  test ! -z "$wayland_display" && echo " Wayland Display = $wayland_display"
+  test ! -z "$x11_display" && echo " X11 Display = $x11_display" || echo " Not using X11"
+  test ! -z "$wayland_display" && echo " Wayland Display = $wayland_display" || echo " Not using Wayland"
 
   echo "--------------------------------------------------------------------------"
 }
@@ -100,7 +99,7 @@ function show_all_arco {
   i=0
 
   # query pacman search for any arco packages installed
-  pacman_local_query=$(pacman -Qq | grep "arcolinux\|archlinux")
+  pacman_local_query=$(pacman -Qq | grep "arcolinux\|archlinux\|sofirem")
 
   for pkg in $pacman_local_query; do
 
@@ -112,7 +111,7 @@ function show_all_arco {
     case "$url" in
       *"arcolinux"*)
         i=$((i + 1))
-        echo -e " $i. $pkg :: installed ==> \e[1m $local_version\e[0m :: latest ==> \e[1;34m $remote_version\e[0m"
+        echo -e " $i. $pkg :: installed --> \e[1m $local_version\e[0m :: latest --> \e[1;34m $remote_version\e[0m"
       ;;
     esac
   done
